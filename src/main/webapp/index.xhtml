@@ -11,6 +11,11 @@
 </h:head>
 
 <h:body>
-    <p:spinner />
+    <p:dataList value="#{patientView.patient}" var="patient" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+        <f:facet name="header">
+            Pacjenci
+        </f:facet>
+        <h:outputText value="#{patient}" style="display:inline-block"/>
+    </p:dataList>
 </h:body>
 </html>
