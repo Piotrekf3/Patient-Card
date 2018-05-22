@@ -33,19 +33,22 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-structures-dstu3 -->
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-structures-dstu2</artifactId>
+      <artifactId>hapi-fhir-structures-dstu3</artifactId>
       <version>3.3.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-base -->
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-structures-hl7org-dstu2</artifactId>
+      <artifactId>hapi-fhir-base</artifactId>
       <version>3.3.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/ca.uhn.hapi.fhir/hapi-fhir-client -->
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-validation-resources-dstu2</artifactId>
+      <artifactId>hapi-fhir-client</artifactId>
       <version>3.3.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
