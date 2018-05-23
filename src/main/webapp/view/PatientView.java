@@ -15,13 +15,24 @@ import java.util.List;
 @ViewScoped
 public class PatientView implements Serializable {
     private List<Patient> patients;
+    private String familyName;
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
+    }
 
     @Inject
     private PatientList patientList;
 
     @PostConstruct
-    private void init() {
-        patients = patientList.getPatients();
+    public void init() {
+        patients = patientList.getPatients(familyName);
+        System.out.println("tutaj init");
+        System.out.println(familyName);
     }
 
     public List<Patient> getPatients() {

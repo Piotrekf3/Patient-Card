@@ -29,17 +29,27 @@ public class PatientList {
         return ctx;
     }
 
-    public List<Patient> getPatients() {
+    public List<Patient> getPatients(String familyName) {
         IGenericClient client = ctx.newRestfulGenericClient(serverBase);
         // Perform a search
         Bundle results = client.search().forResource(Patient.class)
-                .where(new StringClientParam("family").matches().value("duck"))
+                .count(500)
+                .where(Patient.FAMILY.matches().values(familyName))
                 .returnBundle(org.hl7.fhir.dstu3.model.Bundle.class)
                 .execute();
-        System.out.println("Found " + results.getEntry().size() + " patients named 'duck'");
         List<Patient> patients = new ArrayList<>();
-        patients.add((Patient) results.getEntry().get(0).getResource());
+
+        for(int i=0; i<results.getEntry().size(); i++) {
+            Patient patient = (Patient) results.getEntry().get(i).getResource();
+            if(validate(patient))
+                patients.add(patient);
+        }
+
         return patients;
+    }
+
+    private boolean validate(Patient patient) {
+        return patient.hasName() && patient.hasGender() && patient.hasBirthDate();
     }
 
 }

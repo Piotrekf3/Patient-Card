@@ -11,11 +11,41 @@
 </h:head>
 
 <h:body>
-    <p:dataList value="#{patientView.patients}" var="patient" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
-        <f:facet name="header">
-            Pacjenci
-        </f:facet>
-        <h:outputText value="#{patient}" style="display:inline-block"/>
-    </p:dataList>
+    <h:form>
+    <div>
+        <p:toolbar>
+            <f:facet name="right">
+                <h:inputText value="#{patientView.familyName}"/>
+                <p:commandButton value="search family name" icon="ui-icon-search"  process="@parent:@parent" update="@form" action="#{patientView.init}"/>
+
+            </f:facet>
+        </p:toolbar>
+    </div>
+    <div>
+        <p:dataTable var="patient" value="#{patientView.patients}" paginator="true" rows="20" styleClass="paginated">
+            <f:facet name="header">
+                Patients
+            </f:facet>
+            <p:column headerText="Given Name">
+                <h:outputText value="#{patient.getName().get(0).getGiven().get(0)}" />
+            </p:column>
+
+            <p:column headerText="Family Name">
+                <h:outputText value="#{patient.getName().get(0).getFamily()}" />
+            </p:column>
+
+            <p:column headerText="Gender">
+                <h:outputText value="#{patient.getGender()}" />
+            </p:column>
+
+            <p:column headerText="Birth Date">
+                <h:outputText value="#{patient.getBirthDate()}" />
+                <p:button outcome="patientDetails" icon="ui-icon-search">
+                    <f:param name="patientId" value="#{patient.getId()}"/>
+                </p:button>
+            </p:column>
+        </p:dataTable>
+    </div>
+    </h:form>
 </h:body>
 </html>
