@@ -7,22 +7,25 @@ import misc.XMLParser;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Patient;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Named
-@ApplicationScoped
-public class PatientList {
-
+@SessionScoped
+public class PatientList implements Serializable {
     private FhirContext ctx;
-    private static String serverBase = "http://hapi.fhir.org/baseDstu3";
-
-    public PatientList() {
-        ctx = FhirContext.forDstu3();
+    @Inject
+    private Global global;
+    @PostConstruct
+    private void init() {
+        ctx = global.getCtx();
     }
 
     public FhirContext getContext() {
@@ -30,7 +33,7 @@ public class PatientList {
     }
 
     public List<Patient> getPatients(String familyName) {
-        IGenericClient client = ctx.newRestfulGenericClient(serverBase);
+        IGenericClient client = ctx.newRestfulGenericClient(Global.serverBase);
         // Perform a search
         Bundle results = client.search().forResource(Patient.class)
                 .count(500)

@@ -31,8 +31,6 @@ public class PatientView implements Serializable {
     @PostConstruct
     public void init() {
         patients = patientList.getPatients(familyName);
-        System.out.println("tutaj init");
-        System.out.println(familyName);
     }
 
     public List<Patient> getPatients() {

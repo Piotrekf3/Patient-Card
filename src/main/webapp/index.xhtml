@@ -40,7 +40,7 @@
 
             <p:column headerText="Birth Date">
                 <h:outputText value="#{patient.getBirthDate()}" />
-                <p:button outcome="patientDetails" icon="ui-icon-search">
+                <p:button outcome="patientDetails" icon="ui-icon-search" padding="5">
                     <f:param name="patientId" value="#{patient.getId()}"/>
                 </p:button>
             </p:column>

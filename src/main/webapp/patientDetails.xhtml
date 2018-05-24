@@ -19,7 +19,33 @@
 </h:head>
 
 <h:body>
-    
+
+    <f:metadata>
+        <f:viewParam name="patientId" value="#{patientDetails.patientUrl}" />
+    </f:metadata>
+
+    <p:panel header="#{patientDetails.patientUrl}">
+        <p:growl id="growl" showSummary="true" showDetail="true" sticky="true">
+            <p:autoUpdate />
+        </p:growl>
+
+        <p:timeline id="timeline" value="#{patientDetailsView.model}" height="450px"
+                    selectable="#{patientDetailsView.selectable}"
+                    zoomable="#{patientDetailsView.zoomable}"
+                    moveable="#{patientDetailsView.moveable}"
+                    stackEvents="#{patientDetailsView.stackEvents}"
+                    axisOnTop="#{patientDetailsView.axisOnTop}"
+                    eventStyle="#{patientDetailsView.eventStyle}"
+                    showCurrentTime="#{patientDetailsView.showCurrentTime}"
+                    showNavigation="#{patientDetailsView.showNavigation}">
+
+            <p:ajax event="select" listener="#{patientDetailsView.onSelect}"/>
+
+        </p:timeline>
+    </p:panel>
+    <h:form>
+        <p:growl id="growl1" showDetail="true" sticky="true" />
+    </h:form>
 </h:body>
 
 </html>
