@@ -24,7 +24,7 @@
           <element id="library" level="project" name="Maven: ca.uhn.hapi.fhir:hapi-fhir-client:3.3.0" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.3" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.6" />
-          <element id="library" level="project" name="Maven: org.primefaces:primefaces:6.0" />
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:6.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

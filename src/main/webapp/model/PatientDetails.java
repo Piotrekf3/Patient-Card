@@ -33,6 +33,7 @@ public class PatientDetails implements Serializable {
                 .count(100)
                 .returnBundle(org.hl7.fhir.dstu3.model.Bundle.class)
                 .execute();
+        System.out.println("size=" + results.getEntry().size());
         List<Resource> resources = new ArrayList<>();
         List<Bundle.BundleEntryComponent> entries = results.getEntry();
         for(int i=0; i<results.getEntry().size(); i++) {

@@ -3,9 +3,9 @@ package model;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
+import com.google.common.collect.Lists;
 import misc.XMLParser;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -44,15 +45,26 @@ public class PatientList implements Serializable {
 
         for(int i=0; i<results.getEntry().size(); i++) {
             Patient patient = (Patient) results.getEntry().get(i).getResource();
-            if(validate(patient))
-                patients.add(patient);
+            repair(patient);
+            patients.add(patient);
         }
 
         return patients;
     }
 
-    private boolean validate(Patient patient) {
-        return patient.hasName() && patient.hasGender() && patient.hasBirthDate();
+    private void repair(Patient patient) {
+        if(!patient.hasName()) {
+            HumanName name = new HumanName();
+            name.setFamily("Unknown");
+            name.setGiven(Lists.newArrayList(new StringType("Unknown")));
+            patient.addName(name);
+        }
+        if(!patient.hasGender()) {
+            patient.setGender(Enumerations.AdministrativeGender.OTHER);
+        }
+        if(!patient.hasBirthDate()) {
+            patient.setBirthDate(new Date());
+        }
     }
 
 }

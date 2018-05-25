@@ -24,12 +24,12 @@
         <f:viewParam name="patientId" value="#{patientDetails.patientUrl}" />
     </f:metadata>
 
-    <p:panel header="#{patientDetails.patientUrl}">
-        <p:growl id="growl" showSummary="true" showDetail="true" sticky="true">
+    <p:panel header="#{patientDetailsView.getPatientName()}">
+        <p:growl id="growl" showSummary="true" showDetail="true">
             <p:autoUpdate />
         </p:growl>
 
-        <p:timeline id="timeline" value="#{patientDetailsView.model}" height="450px"
+        <p:timeline id="timeline" value="#{patientDetailsView.model}" var="patient" height="450px"
                     selectable="#{patientDetailsView.selectable}"
                     zoomable="#{patientDetailsView.zoomable}"
                     moveable="#{patientDetailsView.moveable}"
@@ -38,6 +38,8 @@
                     eventStyle="#{patientDetailsView.eventStyle}"
                     showCurrentTime="#{patientDetailsView.showCurrentTime}"
                     showNavigation="#{patientDetailsView.showNavigation}">
+
+            <h:outputText value="#{patient.text}"/>
 
             <p:ajax event="select" listener="#{patientDetailsView.onSelect}"/>
 
