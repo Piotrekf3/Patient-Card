@@ -25,7 +25,8 @@ import java.util.List;
 public class PatientDetailsView implements Serializable {
 
     private TimelineModel model;
-    private List<Resource> resources;
+    private List<Observation> observations;
+    private List<MedicationStatement> medications;
 
     private boolean selectable = true;
     private boolean zoomable = true;
@@ -43,44 +44,32 @@ public class PatientDetailsView implements Serializable {
     private void init() {
         model = new TimelineModel();
         Calendar cal = Calendar.getInstance();
-
-        resources = patientDetails.getPatientDetails();
-        for(Resource resource : resources) {
-            if(resource.getResourceType().equals(ResourceType.Observation)) {
-                try {
-                    Observation observation = (Observation) resource;
+        observations = patientDetails.getPatientObservations();
+        for (Observation observation : observations) {
+            try {
+                if (observation.hasEffectiveDateTimeType()) {
+                    System.out.println("Observation");
                     DateTimeType date = observation.getEffectiveDateTimeType();
-                    cal.set(date.getYear(), date.getMonth(), date.getDay(), date.getTzHour(), date.getTzMin(), 0);
-                    model.add(new TimelineEvent(new Wrapper(observation.getCode().getText(),observation), cal.getTime()));
+                    cal.set(date.getYear(), date.getMonth(), date.getDay(), 0, 0, 0);
+                    model.add(new TimelineEvent(new Wrapper(observation.getCode().getText(), observation), cal.getTime()));
                 }
-                catch (FHIRException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            else if(resource.getResourceType().equals(ResourceType.MedicationStatement)) {
-                try {
-                    System.out.println("Medication");
-                    MedicationStatement statement = (MedicationStatement) resource;
-                    DateTimeType date = DateTimeType.today();
-                    if(statement.hasDateAsserted())
-                        date = statement.getEffectiveDateTimeType();
-                    cal.set(date.getYear(), date.getMonth(), date.getDay(), date.getTzHour(), date.getTzMin(), 0);
-                    model.add(new TimelineEvent(new Wrapper("Medication", statement),cal.getTime()));
-                }
-                catch (FHIRException e) {
-                    e.printStackTrace();
-                }
+            } catch (FHIRException e) {
+                e.printStackTrace();
             }
         }
-    }
-
-    public String getPatientName() {
-        if(resources.get(0).getResourceType().equals(ResourceType.Patient)) {
-            Patient patient = (Patient)resources.get(0);
-            return patient.getName().get(0).getGiven().get(0).toString() + " " + patient.getName().get(0).getFamily().toString();
+        medications = patientDetails.getPatientMedications();
+        for (MedicationStatement medication : medications) {
+            try {
+                System.out.println("Medication");
+                DateTimeType date = DateTimeType.today();
+                if (medication.hasDateAsserted())
+                    date = medication.getEffectiveDateTimeType();
+                cal.set(date.getYear(), date.getMonth(), date.getDay(), date.getTzHour(), date.getTzMin(), 0);
+                model.add(new TimelineEvent(new Wrapper("Medication", medication), cal.getTime()));
+            } catch (FHIRException e) {
+                e.printStackTrace();
+            }
         }
-        return "";
     }
 
     public void onSelect(TimelineSelectEvent e) {

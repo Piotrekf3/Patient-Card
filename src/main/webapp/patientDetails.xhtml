@@ -23,8 +23,8 @@
     <f:metadata>
         <f:viewParam name="patientId" value="#{patientDetails.patientUrl}" />
     </f:metadata>
-
-    <p:panel header="#{patientDetailsView.getPatientName()}">
+    <p:panel header="#{patientDetails.patientUrl}"/>
+    <p:panel header="#{patientDetails.getPatientName()}">
         <p:growl id="growl" showSummary="true" showDetail="true">
             <p:autoUpdate />
         </p:growl>

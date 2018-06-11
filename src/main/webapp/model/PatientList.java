@@ -4,7 +4,6 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
 import com.google.common.collect.Lists;
-import misc.XMLParser;
 import org.hl7.fhir.dstu3.model.*;
 
 import javax.annotation.PostConstruct;
@@ -37,7 +36,7 @@ public class PatientList implements Serializable {
         IGenericClient client = ctx.newRestfulGenericClient(Global.serverBase);
         // Perform a search
         Bundle results = client.search().forResource(Patient.class)
-                .count(500)
+                .count(100)
                 .where(Patient.FAMILY.matches().values(familyName))
                 .returnBundle(org.hl7.fhir.dstu3.model.Bundle.class)
                 .execute();
